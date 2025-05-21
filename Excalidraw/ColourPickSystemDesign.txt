@@ -1,0 +1,177 @@
+### **Requirements**
+
+- The user can pick a few colors and save the colors in a favorite list
+- The user can update the favorite colors list
+- The user can share the favorite list of colors with other users through email
+- The user can define the access control list (users who can view) on the favorite list
+
+Few Colours
+
+Pick Colours
+
+- What are all colours that are to be supported by the system
+- Are all the colours exposed to all the users
+
+View Favourite Colour List of User:
+
+Update:
+
+- User can update means he can add new colour or remove existing colour
+- Should we capture the audit
+
+  
+
+ Share
+
+- Share will be separate functionality in that case.
+- Lets say user updates his favorite list, then should we share the updated favourite list with the already shared folks
+- Should the user be able to View the userId’s to whom he has shared the colours.
+- Can the user share favorite colours to any user or only to the users that are signed up in colour picker functionality
+
+Are we thinking about SignUp and SignIn Functionality
+
+Non Funcional Requirements:
+
+1. How Many Users are we looking fwd to support in the System
+2. Can we assume each user to favorite all the colours in worst case
+
+Total No Of Users: 100 M Users
+
+  for each user : 1 Create Requests per day
+
+  100M Requests / day
+
+  
+
+10^8/10^5 = 10^3 = 10 * 10^3 per second = 10,00 req/second
+
+Favoriute List:
+
+1Kb
+
+100M * 365 * 5= 200* 109 = 200 GB of  Memory (Which fits into single machine)
+
+Entities & Database Schema:
+
+User
+
+- userId
+- name
+- email
+- contactNumber
+
+Colour
+
+- id
+- name
+
+FavoriteColours
+
+- listId
+- colourId : String
+- updatedAt: String
+
+FavoriteLists
+
+listId 
+
+userid
+
+listName
+
+createdAt
+
+modifiedAt
+
+favoriteEnabled
+
+FavColoursPermissions
+
+- listId
+- acl
+- enabled
+
+ACL
+
+- id
+- aclName
+- owner
+- createdDate
+- AccessPermission
+
+AclUsers
+
+- aclId
+- userId
+- modifiedBy
+- modifiedAt
+
+API’s:
+
+     UserService
+
+           - register()
+
+           - logIn()
+
+      
+
+     ColourService
+
+POST
+
+       /colourservice/v1/favuoritecolours
+
+       { userId :  ,  
+
+         updatedAt: 
+
+          favourite :true, 
+
+            colours: []  
+
+       }
+
+GET
+
+  /colourservice/v1/favuoritecolours
+
+  Response Body:
+
+  {userId, colors : {name: , updated:  , acl: }}
+
+  PUT
+
+  /colourservice/v1/favcolours
+
+  {userId: , colors:[]}
+
+ PUT
+
+ /colourservice/v1/acl
+
+ {userId: , acl:,  favColsName, enabled:}
+
+ACL’s
+
+POST
+
+  /aclservice/v1/acls
+
+{}
+
+GET
+
+/aclservice/v1/users/{userId}acls/
+
+GET
+
+/aclservice/v1/users/{userId}acls/{aclId}
+
+{}
+
+PUT
+
+/aclservice/v1/users/{userId}acls/{aclId}
+
+{userId}

@@ -1,0 +1,155 @@
+Design the popular feed on a content authoring platform such as Confluence. If they have never used Confluence, there are parallels like popular feeds that can be used instead. Most candidates have seen a version of popularity feed in another scenario like YouTube, Twitter, Facebook. However that will limit some of the areas of deeper dive that are listed below.
+
+There are three aspects to this system:
+
+Gathering the popularity indicators, content views, likes and shares.
+
+Calculating the top-n popular content
+
+Providing real time updates to the client
+
+Functional requirements: From a user’s perspective, there are three key experiences that we want to build here:
+
+As a user, I can see the top-n most popular content in the system at any given time.
+
+As a user, I want to see freshness in the popular content and not the content I’ve already read.
+
+As a user, I may view this feed in any device - web, mobile, tablet. 
+
+Non-Functional requirements: Imagine that you are on a team that needs to design and build the system to power this experience.
+
+Your team’s system should be able to generate any user’s popular feed in real-time - maximum latency seen by the end user would be 2s.
+
+
+---------------------------------------
+
+Functional Requirements:
+
+Popular Feed on any Content Authoring Platform Confluence, Youtube, Insta, Twitter, Facebook
+
+
+Popular Feed Meaning : Show the Contents in the descending order of their Popularity
+
+[Ask]:Popularity Indicator: View, Like , Share
+
+
+Calculate the Top-N Poplar Contents
+
+Freshness: Top N popular contents
+Freshness in Popular Contents , every time new data has to be served
+
+View Feed From Multiple Devices
+
+
+NFR's:
+Max Latency for Fresh Feed Generation: 2 seconds
+
+
+API's:
+  GET v1/contents/?offset&?pagesize
+
+  Request Header:
+  bearerToken
+  userDetails
+
+  ResponseBody
+  {
+  	 [{
+  	 	contentId:
+  	 	contentName:
+  	 	contentMetadata:{}
+  	 	contentData:{
+
+  	 	}
+  	 }]
+  }
+
+API's
+
+ContentService
+  PUT v1/contents/{contentId}/like
+
+  Request Header:
+  bearerToken
+  userDetails
+
+  RequestBody:
+  {
+  	 likeCount: 
+  	 contentType:
+  	 contentName:
+  	 contentMetadata:{}
+  }
+
+  Response Body:
+  {
+     likeCount: 
+  	 contentType:
+  	 contentName:
+  	 contentMetadata:{}
+  }
+
+
+  PUT v1/contents/{contentId}/share
+
+  PUT v1/contents/{contentId}/view
+
+DB Schema:
+
+Content
+   - contentId (PK)
+   - name  
+   - type
+   - description
+   - createdAt
+   - modifiedAt
+   - createdBy
+   - modifiedBy
+
+ContentView
+   - contentId (FK)
+   - viewCounts 
+   - updatedAt
+
+ContentLikes
+   - contentId (FK)
+   - likeCounts
+   - updatedAt
+
+ContentShare 
+   - contentId (FK)
+   - shareCounts
+   - updatedAt
+
+Relational Database:
+counts are incremented atomically in relational database
+
+Write Heavy System because there are lot many number of views, counts and likes
+Read Heavy System because to return top N popular contents
+
+Scale: 
+100M users
+
+DAU: 10 M 
+Each user created 2 contents per day
+
+20 M Contents
+
+Write Requests = 20 * 10^6/10^5 = 200 requests/sec
+
+Reads are twice the number of writes
+
+Read Requests = 400 Req/sec
+
+Storage Estimations:
+
+20 * 10^6 * 365 * 5
+
+2000 * 20 = 4 * 10^9 & 200(No Of Contents for 5 years)
+= 8 * 10^11
+= 800 10^9 = 800 GB
+
+
+
+
+
