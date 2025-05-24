@@ -1,0 +1,153 @@
+Atlassian has a number of different products, 
+each containing different types of content. 
+
+As an example, let’s look at three of our products:
+Jira - Issues
+Confluence - Pages
+Bitbucket - Pull Requests
+
+We want to build a system that allows users to tag content from different products, 
+and then to view content by tags. 
+
+A goal of this system is that it should be built in a product-agnostic way, so that we could add new products in the future without a large amount of work.
+
+There are three key experiences that we want to build here:
+
+As a user I can add, remove, and update tags on content
+As a user, I can click on a tag and see all content that has been associated with that tag
+As a user, I can see a dashboard of popular tags
+
+Imagine that you are on a team that needs to design and build the system to power this experience
+
+
+
+
+Functional Requirements:
+ - Tag Content for different products
+ - add/remove/ 
+ - update (updating name)
+-   view all the conents for the tag
+-  dashboard of popular tags
+   the tag associated with most number of products
+
+- should be unique across products
+- tag length: 20 chars
+
+Scale:
+  - Contents: 100 M
+  - Tags tied to each product: 10
+
+
+  - No of tags = 1000M = 1B tags
+
+Wrties:
+Add/Remove/Tag - Fair Traffic
+
+Click on tag - List<Prodct>
+Read:
+Consitency: Evetually COnsistent
+
+Popular Tags:
+Consistency: Eventually Consistent:
+
+---------------------------------------
+
+Entties:
+
+Tag
+
+Item
+
+APIs:
+
+POST v1/tags/
+{
+	{tagName, tagDescription:}
+}
+
+Response
+201
+{
+	tagId:
+	tagName:
+	tagDescription:
+	version:
+}
+
+400, 429, 401
+5XX
+
+PUT v1/tags/{tagId}
+{
+	{tagName, tagDescription:}
+}
+
+200
+{
+	{tagId, tagName, tagDescription:}
+}
+
+GET v1/tags/
+Response
+{
+	
+}
+
+GET v1/tags/{tagId}
+
+Response
+{
+	{tagName, tagDescription:}
+}
+
+Pagination:
+
+GET v1/tags/{tagId}/mappings/?offset=&pageSize?=
+
+{
+	[{item: {},
+	}]
+}
+
+Reponse:
+
+Data Modelling
+
+Content
+ - contentId
+ - contentUrl
+ - contentName
+ - createdDate
+
+TagService
+
+Tag
+  - tagId
+  - tagName
+  - tagDescription
+
+
+Mappings
+  - tagId, contentId , contentType
+
+{
+	tagId
+	tagName
+	[{}]
+}
+
+select tagId, count(*) as count from mappings;
+
+select item from mappings where tagId=?
+
+Database:
+
+1B tags * 100M * = 
+
+NoSql (Cassandra)
+
+Eventual Consistency:
+Freshness Time: 
+
+
+

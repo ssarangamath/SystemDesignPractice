@@ -73,7 +73,7 @@ FavoriteColours
 
 FavoriteLists
 
-listId 
+listId  (Pk)
 
 userid
 
@@ -86,13 +86,11 @@ modifiedAt
 favoriteEnabled
 
 FavColoursPermissions
-
 - listId
 - acl
 - enabled
 
 ACL
-
 - id
 - aclName
 - owner

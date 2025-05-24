@@ -1,0 +1,47 @@
+Hierarchical Data Storage System
+
+Design a system to store and retrieve a hierarchical model which can store any data with the following characteristics
+
+all nodes are under a root node, the root node doesn’t have any parent
+
+there can be multiple root nodes
+
+each node can have multiple child nodes
+
+We need to design the following functionality into the system
+
+add child node to any node
+
+get all the children of a node, along with an indicator to show if each child node have further children or not, let’s call this the TERMINAL node indicator
+
+You do NOT have to worry about what is exactly stored in the nodes, 
+
+they can represent any data like confluence pages hierarchy or file system in operating systems or employee storage systems in organizations with manager-employee relationships or a heterogeneous systems that can store multiple types of nodes
+
+> rootNode
+  > node1 // '>' represents that there are more child nodes under node1
+  - node2 // '-' represents that there are no further child nodes under node2
+  > node3
+
+Upon further expansion of node1
+> root
+  > node1
+    - childNode1
+  - node2
+  > node3
+
+
+        Root                    
+    Node
+ Node    Node   
+
+       
+        Root                    
+    Node
+ Node    Node 
+
+
+Table
+
+
+

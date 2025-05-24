@@ -1,0 +1,120 @@
+Design an uptime monitoring system like https://www.statuscake.com/features/uptime/
+
+API 
+Schema
+HLD
+
+Functional Requirements:
+
+Uptime Monitoring System:
+
+ - Monitor the Site Status of the different websites
+
+ - Register Organisations
+ 
+ - onboarding of the site
+
+ - Site is Down Right we want to notify the user
+    - Different Configurable Channel through which we want to notify the user
+
+ - Interval at which the site status has to be checked
+
+- snoozing the already configured alert
+
+- disabling and enabling the alert he has configured 
+
+- he should be able to view historical reports
+
+Non Functional Requirements:
+
+Sites: 1 M Sites
+Granular Interval: 30 Seconds 
+
+SLA's:  After we detect , Alert Should be notified within 5 seconds.
+
+View Historical Report: 
+
+
+—----------------------
+
+Entity:
+
+Site: 
+ - siteId
+ - siteName
+   - siteUrl
+
+AlertConfiguration
+   - alertId
+   - alertName
+   - siteId
+   - userId
+   - createdAt
+   - enabled
+   - triggerInteveral
+   - channelType
+   - channelEmai
+   - noOfEvents
+   - eventWindow
+
+
+AlertTriggerMetadata
+   - alertId
+   - timestamp
+  
+
+SiteStatus
+   - siteId
+   - alertId
+   - siteStatus
+   - httpStatusCode
+   - timeStamp
+
+Notification
+   - notificationId
+   - notificationName
+   - siteId (FK)
+
+Write through of alerts are less
+
+Reads will be higher
+
+
+APIs
+
+POST v1/sites
+{
+}
+
+POST v1/alerts
+{
+   - alertName
+   - siteId
+   - userId
+   - createdAt
+   - enabled
+   - triggerInteveral
+   - channelType
+   - channelEmai
+   - noOfEvents
+   - eventWindow
+}
+
+Reponse:
+
+201
+{
+    - alertId
+}
+
+GET v1/alerts/?alertId
+{
+
+}
+
+
+
+
+  
+
+

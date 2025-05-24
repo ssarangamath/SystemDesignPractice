@@ -66,7 +66,7 @@ API's:
 
 API's
 
-ContentService
+ContentActivityService
   PUT v1/contents/{contentId}/like
 
   Request Header:

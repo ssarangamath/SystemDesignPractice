@@ -1,0 +1,180 @@
+
+Design Global Image Distributed System
+
+Image Upload
+Storage 
+Transformation 
+Delivered across the globe.
+
+Design Aspects
+Functional 
+Non Functional
+Choice of tech
+Observability
+Security
+API Resilient
+
+Functional Requirements:
+Users should be able to upload the images
+Limit to have jpg format
+Upload of duplicate images
+
+Transformation:
+- User can choice for resize of image
+
+- Should be able to download the required image
+
+
+Non Functional Requierments:
+- Scale:
+Users: 10M
+Images uploaded by each user per year: 100 images
+
+- Throughput:
+Write throughput: Fairly Normal
+
+Less Throughput: Reads would be higher (Read Heavy)
+
+Latencies:
+Upload: < second
+Read Latency: 500ms
+
+Consistency:
+
+Write Consistency: 
+Read Consisency: Eventual Consistency
+
+Storage:
+Image < 1 GB
+100 * 10M * 1GB = 1000 * 1015 = 1000 PB
+
+Availability:
+
+100 * 10M * 1Kb * 5 = 5000* 109 = 5TB
+--------------------------------
+
+Entities
+
+User
+  - userId
+  - userName
+  - userEmail
+
+Image
+  - imageId
+  - imageUrl
+  - imageName
+  - imageDescription
+  - createdBy
+  - createdDate
+  - modifiedBy
+  - modifiedDate
+  - format
+  - size
+  - userId
+
+APIs:
+
+POST /v1/images
+Request Header:
+{
+	
+}
+
+Request Body:
+{
+	- imageUrl
+	- imageName
+	- imageDescription
+	- createdBy
+	- createdDate
+	- modifiedBy
+	- modifiedDate
+	- format
+	- size
+	- userId
+}
+
+Response Code: 201
+Response Body:
+{
+	-imageId
+	- preSignedUrl
+	- imageName
+	- imageDescription
+	- createdBy
+	- createdDate
+	- modifiedBy
+	- modifiedDate
+	- format
+	- size
+	- userId
+}
+
+GET /v1/images/{imageId}
+
+Response Body:
+{
+	-imageId
+	- imageUrl
+	- imageName
+	- imageDescription
+	- createdBy
+	- createdDate
+	- modifiedBy
+	- modifiedDate
+	- format
+	- size
+	- userId
+	- imageData
+}
+
+PUT /v1/images/{imageId}/transform
+{
+	- resizeHeight
+	- resizeWidth
+}
+
+ResponseBody:
+{
+	- resizeHeight
+	- resizeWidth
+	- imageData:{}
+}
+
+
+Database:
+   	- imageName
+	- imageDescription
+	- createdBy
+	- createdDate
+	- modifiedBy
+	- modifiedDate
+	- format
+	- size
+	- userId
+
+Cassandra:
+	-imageId
+	- imageUrl
+	- imageName
+	- imageDescription
+	- createdBy
+	- createdDate
+	- modifiedBy
+	- modifiedDate
+	- format
+	- size
+	- userId
+	- imageData
+
+Primary Key:
+ParitionKey: ImageId
+ClusteringKey: createdDate
+
+
+
+
+
+
+
